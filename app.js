@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
@@ -5,19 +6,20 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 const proRouter = require('./api/routes/products');
 const ordRouter = require('./api/routes/orders');
-const db = 'mongodb+srv://ashuadukia511:Natrium@cluster0.hxxe3.mongodb.net/Ashutosh?retryWrites=true&w=majority';
+const userRouter = require('./api/routes/users');
+const db = process.env.DB_URL;
 
 mongoose.connect(db,
     {
         useNewUrlParser : true,
-        useUnifiedTopology : true
+        useUnifiedTopology : true,
+        useCreateIndex : true
     }
 ).then(() => {
     console.log('Mongoose Connected......');
 }).catch((err) => {
     console.log(err);
 });
-
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json());
@@ -34,6 +36,7 @@ app.use((req, res, next) => {
 
 app.use('/products', proRouter);
 app.use('/orders', ordRouter);
+app.use('/users', userRouter);
 
 app.use((req, res, next) => {
     const err = new Error('Not Found');
