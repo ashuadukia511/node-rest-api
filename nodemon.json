@@ -1,7 +1,0 @@
-{
-    "env":{
-        "MONGO_ATLAS_PW" : "Natrium",
-        "MONGO_ATLAS_DBNAME" : "Ashutosh"
-        
-    }
-}
